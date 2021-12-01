@@ -8,6 +8,8 @@ public class SqlRuDateTimeParser implements DateTimeParser {
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter
             .ofPattern("d MM yy, HH:mm");
+    private static final DateTimeFormatter WHEN_NO_TIME_FORMATTER = DateTimeFormatter
+            .ofPattern("d MM yy");
     private static final Map<String, String> MONTHS = Map.ofEntries(
             Map.entry("янв", "01"),
             Map.entry("фев", "02"),
@@ -29,13 +31,11 @@ public class SqlRuDateTimeParser implements DateTimeParser {
         String date;
         int[] diapason = new int[2];
         if (parse.contains("сегодня")) {
-            date = DateTimeFormatter
-                    .ofPattern("d MM yy")
+            date = WHEN_NO_TIME_FORMATTER
                     .format(LocalDateTime.now());
             diapason[1] = 7;
         } else if (parse.contains("вчера")) {
-            date = DateTimeFormatter
-                    .ofPattern("d MM yy")
+            date = WHEN_NO_TIME_FORMATTER
                     .format(LocalDateTime.now()
                             .minusDays(1));
             diapason[1] = 5;
