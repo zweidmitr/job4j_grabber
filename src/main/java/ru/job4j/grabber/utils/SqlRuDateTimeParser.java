@@ -6,6 +6,8 @@ import java.util.Map;
 
 public class SqlRuDateTimeParser implements DateTimeParser {
 
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter
+            .ofPattern("d MM yy, HH:mm");
     private static final Map<String, String> MONTHS = Map.ofEntries(
             Map.entry("янв", "01"),
             Map.entry("фев", "02"),
@@ -28,12 +30,12 @@ public class SqlRuDateTimeParser implements DateTimeParser {
         int[] diapason = new int[2];
         if (parse.contains("сегодня")) {
             date = DateTimeFormatter
-                    .ofPattern("dd MM yy")
+                    .ofPattern("d MM yy")
                     .format(LocalDateTime.now());
             diapason[1] = 7;
         } else if (parse.contains("вчера")) {
             date = DateTimeFormatter
-                    .ofPattern("dd MM yy")
+                    .ofPattern("d MM yy")
                     .format(LocalDateTime.now()
                             .minusDays(1));
             diapason[1] = 5;
@@ -43,15 +45,13 @@ public class SqlRuDateTimeParser implements DateTimeParser {
             date = MONTHS.get(str.substring(diapason[0], diapason[1]));
         }
         str.replace(diapason[0], diapason[1], date);
-        DateTimeFormatter formatter = DateTimeFormatter
-                .ofPattern("dd MM yy, HH:mm");
 
-        return LocalDateTime.parse(str.toString(), formatter);
+        return LocalDateTime.parse(str.toString(), FORMATTER);
     }
 
     public static void main(String[] args) {
         SqlRuDateTimeParser parser = new SqlRuDateTimeParser();
-        LocalDateTime date = parser.parse("11 май 20, 15:56");
+        LocalDateTime date = parser.parse("22 ноя 20, 15:56");
         System.out.println(date);
     }
 }
