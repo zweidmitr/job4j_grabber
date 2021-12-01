@@ -14,7 +14,7 @@ public class SqlRuParse {
 
     public static void main(String[] args) throws Exception {
         int tempCount = 1;
-        List<Element> URLList = new ArrayList<>();
+        List<Element> linkList = new ArrayList<>();
         while (tempCount < 6) {
             Document doc = Jsoup.connect(URL + tempCount).get();
             Elements row = doc.select(".postslisttopic");
@@ -26,7 +26,7 @@ public class SqlRuParse {
                 var time = parent.child(5).text();
                 var shows = parent.child(4).text();
                 var link = td.child(0);
-                URLList.add(link);
+                linkList.add(link);
                 System.out.println("Вакансия: " + job);
                 System.out.println("Автор: " + author);
                 System.out.println("Дата: " + time);
@@ -37,7 +37,7 @@ public class SqlRuParse {
             tempCount++;
         }
         System.out.println("===============================================");
-        System.out.println(URLList.size());
+        System.out.println(linkList.size());
         System.out.println(tempCount);
     }
 }
