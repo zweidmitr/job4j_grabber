@@ -40,7 +40,7 @@ public class SqlRuDateTimeParser implements DateTimeParser {
         } else {
             diapason[0] = str.indexOf(" ") + 1;
             diapason[1] = str.indexOf(" ") + 4;
-            date = MONTHS.get(str.substring(diapason[0],diapason[1]));
+            date = MONTHS.get(str.substring(diapason[0], diapason[1]));
         }
         str.replace(diapason[0], diapason[1], date);
         DateTimeFormatter formatter = DateTimeFormatter
