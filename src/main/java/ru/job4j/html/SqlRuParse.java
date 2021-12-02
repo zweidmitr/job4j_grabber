@@ -4,13 +4,29 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import ru.job4j.grabber.Post;
+import ru.job4j.grabber.utils.SqlRuDateTimeParser;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SqlRuParse {
 
     private static final String URL = "https://www.sql.ru/forum/job-offers/";
+
+    public Post postLoad(String url) throws Exception {
+        Post post = new Post();
+        Document doc = Jsoup.connect(url).get();
+        Element header = doc.select(".messageHeader").get(0);
+        Element footer = doc.select(".msgFooter").get(0);
+        LocalDateTime created = new SqlRuDateTimeParser().parse(footer.text().split(" \\[")[0]);
+        post.setTitle(header.text());
+        post.setName(header.text());
+        post.setCreated(created);
+        post.setLink(url);
+        return post;
+    }
 
     public static void main(String[] args) throws Exception {
         int tempCount = 1;
