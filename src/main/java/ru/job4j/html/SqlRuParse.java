@@ -42,7 +42,7 @@ public class SqlRuParse implements Parse {
         Element footer = doc.select(".msgFooter").get(0);
         Element description = doc.select(".msgBody").get(1);
 
-        LocalDateTime created = new SqlRuDateTimeParser().parse(footer.text().split(" \\[")[0]);
+        LocalDateTime created = dateTimeParser.parse(footer.text().split(" \\[")[0]);
         post.setTitle(header.text());
         post.setDescription(description.text());
         post.setCreated(created);
