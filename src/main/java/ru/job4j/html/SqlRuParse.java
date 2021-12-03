@@ -31,34 +31,31 @@ public class SqlRuParse {
     }
 
     public static void main(String[] args) throws Exception {
-        Post post = new SqlRuParse()
-                .postLoad("https://www.sql.ru/forum/1325330/lidy-be-fe-senior-cistemnye-analitiki-qa-i-devops-moskva-do-200t");
-        System.out.println(post);
-//        int tempCount = 1;
-//        List<Element> linkList = new ArrayList<>();
-//        while (tempCount < 6) {
-//            Document doc = Jsoup.connect(URL + tempCount).get();
-//            Elements row = doc.select(".postslisttopic");
-//
-//            for (Element td : row) {
-//                Element parent = td.parent();
-//                var job = parent.child(1).text();
-//                var author = parent.child(2).text();
-//                var time = parent.child(5).text();
-//                var shows = parent.child(4).text();
-//                var link = td.child(0);
-//                linkList.add(link);
-//                System.out.println("Вакансия: " + job);
-//                System.out.println("Автор: " + author);
-//                System.out.println("Дата: " + time);
-//                System.out.println("Просмотры: " + shows);
-//                System.out.println("Ссылка: " + link.attr("href"));
-//                System.out.println("===============================================");
-//            }
-//            tempCount++;
-//        }
-//        System.out.println("===============================================");
-//        System.out.println(linkList.size());
-//        System.out.println(tempCount);
+        int tempCount = 1;
+        List<Element> linkList = new ArrayList<>();
+        while (tempCount < 6) {
+            Document doc = Jsoup.connect(URL + tempCount).get();
+            Elements row = doc.select(".postslisttopic");
+
+            for (Element td : row) {
+                Element parent = td.parent();
+                var job = parent.child(1).text();
+                var author = parent.child(2).text();
+                var time = parent.child(5).text();
+                var shows = parent.child(4).text();
+                var link = td.child(0);
+                linkList.add(link);
+                System.out.println("Вакансия: " + job);
+                System.out.println("Автор: " + author);
+                System.out.println("Дата: " + time);
+                System.out.println("Просмотры: " + shows);
+                System.out.println("Ссылка: " + link.attr("href"));
+                System.out.println("===============================================");
+            }
+            tempCount++;
+        }
+        System.out.println("===============================================");
+        System.out.println(linkList.size());
+        System.out.println(tempCount);
    }
 }
