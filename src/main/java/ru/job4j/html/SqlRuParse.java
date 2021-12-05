@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class SqlRuParse implements Parse {
 
@@ -26,12 +27,27 @@ public class SqlRuParse implements Parse {
     @Override
     public List<Post> list(String link) throws Exception {
         List<Post> listPosts = new ArrayList<>();
-        Document doc = Jsoup.connect(link).get();
-        Elements row = doc.select(".postslisttopic");
-        for (Element td : row) {
-            listPosts.add(detail(td.child(0).attr("href")));
+        int count = 1;
+        while (count < 6) {
+            Document doc = Jsoup.connect(link + "/" + count).get();
+            Elements row = doc.select(".postslisttopic");
+            for (Element td : row) {
+                Post tempPost = detail(td.child(0).attr("href"));
+                if (haveJavaTitle(tempPost.getTitle())) {
+                    listPosts.add(tempPost);
+                }
+            }
+            count++;
         }
-        return null;
+        return listPosts;
+    }
+
+    private boolean haveJavaTitle(String title) {
+        boolean result = false;
+        if (title.toLowerCase().contains("java ")) {
+            result = true;
+        }
+        return result;
     }
 
     @Override
@@ -54,7 +70,7 @@ public class SqlRuParse implements Parse {
         int tempCount = 1;
         List<Element> linkList = new ArrayList<>();
         while (tempCount < 6) {
-            Document doc = Jsoup.connect(URL + tempCount).get();
+            Document doc = Jsoup.connect(URL + "/" + tempCount).get();
             Elements row = doc.select(".postslisttopic");
 
             for (Element td : row) {
