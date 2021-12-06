@@ -25,19 +25,23 @@ public class SqlRuParse implements Parse {
     }
 
     @Override
-    public List<Post> list(String link) throws Exception {
+    public List<Post> list(String link) {
         List<Post> listPosts = new ArrayList<>();
         int count = 1;
-        while (count < 6) {
-            Document doc = Jsoup.connect(link + "/" + count).get();
-            Elements row = doc.select(".postslisttopic");
-            for (Element td : row) {
-                Post tempPost = detail(td.child(0).attr("href"));
-                if (haveJavaTitle(tempPost.getTitle())) {
-                    listPosts.add(tempPost);
+        try {
+            while (count < 6) {
+                Document doc = Jsoup.connect(link + "/" + count).get();
+                Elements row = doc.select(".postslisttopic");
+                for (Element td : row) {
+                    Post tempPost = detail(td.child(0).attr("href"));
+                    if (haveJavaTitle(tempPost.getTitle())) {
+                        listPosts.add(tempPost);
+                    }
                 }
+                count++;
             }
-            count++;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return listPosts;
     }
@@ -51,18 +55,22 @@ public class SqlRuParse implements Parse {
     }
 
     @Override
-    public Post detail(String url) throws Exception {
+    public Post detail(String url) {
         Post post = new Post();
-        Document doc = Jsoup.connect(url).get();
-        Element header = doc.select(".messageHeader").get(0);
-        Element footer = doc.select(".msgFooter").get(0);
-        Element description = doc.select(".msgBody").get(1);
+        try {
+            Document doc = Jsoup.connect(url).get();
+            Element header = doc.select(".messageHeader").get(0);
+            Element footer = doc.select(".msgFooter").get(0);
+            Element description = doc.select(".msgBody").get(1);
 
-        LocalDateTime created = dateTimeParser.parse(footer.text().split(" \\[")[0]);
-        post.setTitle(header.text());
-        post.setDescription(description.text());
-        post.setCreated(created);
-        post.setLink(url);
+            LocalDateTime created = dateTimeParser.parse(footer.text().split(" \\[")[0]);
+            post.setTitle(header.text());
+            post.setDescription(description.text());
+            post.setCreated(created);
+            post.setLink(url);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return post;
     }
 
