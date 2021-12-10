@@ -18,15 +18,12 @@ public class GCWorkTest {
     public static void main(String[] args) {
         info();
         User zero = null;
-        User ein = new User("one", 1);
+        User ein = new User("aabb", 1);
 
         for (int i = 0; i < 5000; i++) {
             System.out.println(new User("N" + i, i));
         }
         info();
-
-        int size = 8 * ((((3) * 2) + 45) / 8);
-        System.out.println(size);
     }
 
 }
