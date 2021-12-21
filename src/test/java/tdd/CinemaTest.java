@@ -47,12 +47,41 @@ public class CinemaTest {
         Calendar date = Calendar.getInstance();
         date.set(2021, Calendar.DECEMBER, 21, 23, 00);
         Ticket ticket = cinema.buy(account, 1, 1, date);
-
     }
 
     @Ignore
     @Test(expected = IllegalArgumentException.class)
     public void whenRowAndColumnIsWrong() {
+        Account account = new AccountCinema();
+        Cinema cinema = new Cinema3D();
+        Calendar date = Calendar.getInstance();
+        date.set(2021, Calendar.DECEMBER, 21, 23, 00);
+        Ticket ticket = cinema.buy(account, 1, 1, date);
+    }
+
+    @Ignore
+    @Test(expected = IllegalArgumentException.class)
+    public void whenDateNotExist() {
+        Account account = new AccountCinema();
+        Cinema cinema = new Cinema3D();
+        Calendar date = Calendar.getInstance();
+        date.set(20212, Calendar.DECEMBER, 42, 23, 00);
+        Ticket ticket = cinema.buy(account, 1, 1, date);
+    }
+
+    @Ignore
+    @Test(expected = IllegalArgumentException.class)
+    public void whenWrongRowAndColumn() {
+        Account account = new AccountCinema();
+        Cinema cinema = new Cinema3D();
+        Calendar date = Calendar.getInstance();
+        date.set(2021, Calendar.DECEMBER, 21, 23, 00);
+        Ticket ticket = cinema.buy(account, 505, -3, date);
+    }
+
+    @Ignore
+    @Test(expected = IllegalArgumentException.class)
+    public void whenTicketUse() {
         Account account = new AccountCinema();
         Cinema cinema = new Cinema3D();
         Calendar date = Calendar.getInstance();
